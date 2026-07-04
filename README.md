@@ -218,3 +218,28 @@ If no output is produced, the transfer was successful and both files are identic
 ## Author
 
 Sai Sriya
+---
+
+# Screenshots
+
+## Server Execution
+
+The server initializes a TCP socket, binds to port **8080**, and waits for incoming client connections.
+
+![Server Terminal](screenshots/server-terminal.png)
+
+---
+
+## Client Execution
+
+The client establishes a TCP connection and transfers the selected file to the server.
+
+![Client Terminal](screenshots/client-terminal.png)
+
+---
+
+## File Integrity Verification
+
+The received file is compared with the original using the Linux `diff` command. Since `diff` produces **no output**, the transfer was successful and both files are identical.
+
+![Verification](screenshots/verification.png)
