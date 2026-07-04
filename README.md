@@ -4,6 +4,49 @@ A multithreaded TCP-based file transfer application developed in C on Linux usin
 
 ---
 
+## Project Highlights
+
+- Multithreaded TCP server using POSIX Threads
+- Reliable file transfer over TCP
+- Custom application-layer protocol
+- Dynamic filename support
+- Robust `send_all()` and `recv_all()` implementations
+- Command-line interface
+- Linux-based implementation
+- Makefile build automation
+
+---
+
+## Repository Structure
+
+```
+tcp-file-transfer/
+│
+├── src/
+│   ├── client.c
+│   └── server.c
+│
+├── docs/
+│   ├── architecture.md
+│   └── protocol.md
+│
+├── screenshots/
+│
+├── Makefile
+├── README.md
+├── LICENSE
+├── sample.txt
+└── .gitignore
+```
+
+---
+
+## Documentation
+
+- 📄 `docs/protocol.md` — Application-layer protocol specification
+- 📄 `docs/architecture.md` — System architecture and threading model
+
+---
 ## Features
 
 - TCP client-server communication
