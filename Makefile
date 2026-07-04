@@ -4,11 +4,11 @@ PTHREAD = -pthread
 
 all: server client
 
-server: server.c
-	$(CC) $(CFLAGS) server.c -o server $(PTHREAD)
+server: src/server.c
+	$(CC) $(CFLAGS) src/server.c -o server $(PTHREAD)
 
-client: client.c
-	$(CC) $(CFLAGS) client.c -o client
+client: src/client.c
+	$(CC) $(CFLAGS) src/client.c -o client
 
 clean:
 	rm -f server client received_*
