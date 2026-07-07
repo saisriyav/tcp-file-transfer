@@ -34,6 +34,7 @@ The client transfers files to the server over TCP while transmitting metadata re
 ## System Architecture
 
 ![Architecture Diagram](docs/architecture-diagram.svg)
+
 ---
 
 ## Project Structure
@@ -56,9 +57,15 @@ tcp-file-transfer/
 │
 ├── docs/
 │   ├── architecture.md
-│   └── protocol.md
+│   ├── protocol.md
+│   ├── architecture-diagram.svg
+│   └── sequence-diagram.svg
 │
 ├── screenshots/
+│   ├── client-terminal.png
+│   ├── server-terminal.png
+│   ├── verification.png
+│   └── project-structure.png
 │
 ├── Makefile
 ├── README.md
@@ -69,19 +76,32 @@ tcp-file-transfer/
 
 ## Application Protocol
 
+The client transmits metadata followed by the file contents in the following order.
+
+| Order | Field | Description |
+|------:|-------|-------------|
+| 1 | Filename Length | Length of the filename |
+| 2 | Filename | Original filename |
+| 3 | File Size | Total size of the file in bytes |
+| 4 | SHA-256 Hash | SHA-256 digest used for integrity verification |
+| 5 | File Data | Binary file contents |
+
+### Communication Flow
+
 ![Sequence Diagram](docs/sequence-diagram.svg)
+
 ---
 
 ## Build
 
-Install OpenSSL development libraries:
+### Install Dependencies
 
 ```bash
 sudo apt update
 sudo apt install libssl-dev
 ```
 
-Compile the application:
+### Compile
 
 ```bash
 make clean
@@ -92,19 +112,21 @@ make
 
 ## Usage
 
-Start the server:
+### Start the Server
 
 ```bash
 ./server
 ```
 
-Custom port:
+Run on a custom port:
 
 ```bash
 ./server 8080
 ```
 
-Transfer a file:
+### Send a File
+
+Using default settings:
 
 ```bash
 ./client sample.txt
@@ -122,13 +144,13 @@ Specify server IP and port:
 
 ### Client
 
-![Client](screenshots/client-terminal.png)
+![Client Terminal](screenshots/client-terminal.png)
 
 ### Server
 
-![Server](screenshots/server-terminal.png)
+![Server Terminal](screenshots/server-terminal.png)
 
-### SHA-256 Verification
+### SHA-256 Integrity Verification
 
 ![Verification](screenshots/verification.png)
 
@@ -147,9 +169,10 @@ Specify server IP and port:
 - Client-Server Architecture
 - Concurrent Programming
 - POSIX Threads
-- Custom Application Protocol Design
-- SHA-256 Cryptographic Hashing
-- Binary File Transfer
+- Custom Application-Layer Protocol Design
+- SHA-256 Cryptographic Hashing (OpenSSL)
+- Reliable File Transfer
+- Binary File Processing
 - Performance Measurement
 - Error Handling
 - Modular Software Design
@@ -159,17 +182,27 @@ Specify server IP and port:
 
 ## Future Enhancements
 
-- TLS encryption
+- TLS/SSL encrypted communication
 - IPv6 support
 - Multiple file transfer
 - Resume interrupted transfers
-- Configuration file support
-- Timestamped logging
-- Bandwidth throttling
 - File compression
+- Authentication and authorization
+- Bandwidth throttling
+- Timestamped logging
+- Configuration file support
+
+---
+
+## Documentation
+
+Additional design documentation is available in:
+
+- `docs/architecture.md`
+- `docs/protocol.md`
 
 ---
 
 ## License
 
-This project is released under the MIT License.
+This project is licensed under the MIT License.
