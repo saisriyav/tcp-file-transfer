@@ -33,40 +33,6 @@ The client transfers files to the server over TCP while transmitting metadata re
 
 ## System Architecture
 
-```
-                     Client
-                        │
-                 Parse Arguments
-                        │
-                    socket()
-                        │
-                   connect()
-                        │
-            Send File Metadata
-      ┌────────────┬────────────┬────────────┐
-      │            │            │            │
- Filename Length  Filename   File Size   SHA-256
-                        │
-                 Send File Data
-                        │
-=================== TCP ===================
-                        │
-                    accept()
-                        │
-               pthread_create()
-                        │
-               Receive Metadata
-                        │
-               Receive File Data
-                        │
-            Compute SHA-256 Hash
-                        │
-             Compare File Hashes
-                        │
-                Save Received File
-                        │
-                  Close Connection
-```
 ![Architecture Diagram](docs/architecture-diagram.svg)
 ---
 
@@ -102,16 +68,6 @@ tcp-file-transfer/
 ---
 
 ## Application Protocol
-
-The client transmits data in the following order:
-
-| Order | Field | Description |
-|------:|-------|-------------|
-| 1 | Filename Length | Length of filename |
-| 2 | Filename | Original filename |
-| 3 | File Size | Total file size |
-| 4 | SHA-256 Hash | Integrity verification |
-| 5 | File Data | File contents |
 
 ![Sequence Diagram](docs/sequence-diagram.svg)
 ---
