@@ -1,0 +1,59 @@
+<svg width="1000" height="850" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title { font:bold 24px Arial; fill:#111; }
+    .label { font:bold 20px Arial; fill:#111; }
+    .text { font:17px Arial; fill:#111; }
+    .line { stroke:#555; stroke-width:2; stroke-dasharray:6,6; }
+    .arrow { stroke:#222; stroke-width:2; marker-end:url(#arrow); }
+    .back { stroke:#0a7; stroke-width:2; marker-end:url(#arrowGreen); }
+  </style>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#222"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#0a7"/>
+    </marker>
+  </defs>
+
+  <text x="330" y="40" class="title">File Transfer Sequence Diagram</text>
+
+  <text x="190" y="90" class="label">Client</text>
+  <text x="750" y="90" class="label">Server</text>
+
+  <line x1="230" y1="110" x2="230" y2="800" class="line"/>
+  <line x1="780" y1="110" x2="780" y2="800" class="line"/>
+
+  <text x="120" y="150" class="text">socket()</text>
+  <text x="120" y="200" class="text">connect()</text>
+  <line x1="250" y1="195" x2="760" y2="195" class="arrow"/>
+
+  <text x="790" y="245" class="text">accept()</text>
+  <text x="790" y="295" class="text">pthread_create()</text>
+
+  <text x="390" y="345" class="text">Filename Length</text>
+  <line x1="250" y1="340" x2="760" y2="340" class="arrow"/>
+
+  <text x="420" y="395" class="text">Filename</text>
+  <line x1="250" y1="390" x2="760" y2="390" class="arrow"/>
+
+  <text x="420" y="445" class="text">File Size</text>
+  <line x1="250" y1="440" x2="760" y2="440" class="arrow"/>
+
+  <text x="395" y="495" class="text">SHA-256 Hash</text>
+  <line x1="250" y1="490" x2="760" y2="490" class="arrow"/>
+
+  <text x="420" y="545" class="text">File Data</text>
+  <line x1="250" y1="540" x2="760" y2="540" class="arrow"/>
+
+  <text x="790" y="600" class="text">Save File</text>
+  <text x="790" y="650" class="text">Compute SHA-256</text>
+  <text x="790" y="700" class="text">Compare Hashes</text>
+
+  <text x="390" y="750" class="text">Integrity Passed</text>
+  <line x1="760" y1="745" x2="250" y2="745" class="back"/>
+
+  <text x="120" y="800" class="text">close()</text>
+  <text x="790" y="800" class="text">close()</text>
+</svg> 

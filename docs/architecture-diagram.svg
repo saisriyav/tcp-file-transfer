@@ -1,0 +1,52 @@
+<svg width="1000" height="900" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .box { fill:#f5f7fa; stroke:#222; stroke-width:2; rx:10; }
+    .title { font: bold 24px Arial; fill:#111; }
+    .text { font: 18px Arial; fill:#111; }
+    .small { font: 16px Arial; fill:#333; }
+    .arrow { stroke:#222; stroke-width:2; marker-end:url(#arrow); }
+    .tcp { font:bold 20px Arial; fill:#0b5; }
+  </style>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#222"/>
+    </marker>
+  </defs>
+
+  <text x="250" y="40" class="title">Linux Multithreaded TCP File Transfer System</text>
+
+  <rect x="120" y="80" width="300" height="520" class="box"/>
+  <text x="230" y="120" class="title">Client</text>
+
+  <text x="170" y="170" class="text">Parse Arguments</text>
+  <text x="170" y="220" class="text">Create Socket</text>
+  <text x="170" y="270" class="text">Connect to Server</text>
+  <text x="170" y="320" class="text">Compute SHA-256</text>
+  <text x="170" y="370" class="text">Send Metadata</text>
+  <text x="170" y="420" class="text">Send File Data</text>
+  <text x="170" y="470" class="text">Show Progress</text>
+  <text x="170" y="520" class="text">Print Statistics</text>
+
+  <rect x="580" y="80" width="300" height="620" class="box"/>
+  <text x="690" y="120" class="title">Server</text>
+
+  <text x="630" y="170" class="text">Create Socket</text>
+  <text x="630" y="220" class="text">Bind Port</text>
+  <text x="630" y="270" class="text">Listen</text>
+  <text x="630" y="320" class="text">Accept Client</text>
+  <text x="630" y="370" class="text">Create Worker Thread</text>
+  <text x="630" y="420" class="text">Receive Metadata</text>
+  <text x="630" y="470" class="text">Receive File Data</text>
+  <text x="630" y="520" class="text">Compute SHA-256</text>
+  <text x="630" y="570" class="text">Verify Integrity</text>
+  <text x="630" y="620" class="text">Save File</text>
+  <text x="630" y="670" class="text">Close Connection</text>
+
+  <line x1="420" y1="350" x2="580" y2="350" class="arrow"/>
+  <text x="455" y="330" class="tcp">TCP</text>
+
+  <rect x="250" y="760" width="500" height="90" class="box"/>
+  <text x="305" y="800" class="text">Custom Protocol: Filename, File Size,</text>
+  <text x="335" y="830" class="text">SHA-256 Hash, File Data</text>
+</svg>

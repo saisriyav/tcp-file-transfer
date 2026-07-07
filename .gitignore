@@ -1,3 +1,5 @@
-client
 server
+client
 received_*
+test_10mb.bin
+*.o

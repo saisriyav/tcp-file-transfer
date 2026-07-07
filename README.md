@@ -1,30 +1,92 @@
-# TCP File Transfer Application
+# Linux Multithreaded TCP File Transfer System
 
-A multithreaded TCP-based file transfer application developed in C on Linux using POSIX sockets and pthreads. The application allows a client to transfer files reliably to a server over TCP while supporting concurrent client connections through multithreading.
+A high-performance TCP client-server file transfer application developed in **C** on **Linux** using **POSIX sockets** and **POSIX threads**. The application supports reliable file transmission, concurrent client handling, configurable networking, real-time transfer monitoring, performance analysis, and SHA-256 integrity verification through a custom application-layer protocol.
 
 ---
 
-## Project Highlights
+## Overview
 
-- Multithreaded TCP server using POSIX Threads
-- Reliable file transfer over TCP
+This project demonstrates the implementation of a production-style TCP file transfer system built using low-level Linux networking APIs. The application emphasizes reliable communication, modular software design, concurrent programming, and secure file verification.
+
+The client transfers files to the server over TCP while transmitting metadata required for reconstruction and integrity validation. Each client connection is handled independently using POSIX threads, allowing multiple clients to be served concurrently.
+
+---
+
+## Key Features
+
+- TCP client-server architecture
+- POSIX socket programming
+- Multithreaded server using POSIX Threads
+- Concurrent client handling
+- Configurable server IP address and port
+- Reliable data transmission using `send_all()` and `recv_all()`
 - Custom application-layer protocol
-- Dynamic filename support
-- Robust `send_all()` and `recv_all()` implementations
-- Command-line interface
-- Linux-based implementation
-- Makefile build automation
+- Binary file transfer support
+- Real-time transfer progress
+- Transfer performance statistics
+- SHA-256 integrity verification
+- Structured logging
+- Modular software architecture
+- Build automation using Make
 
 ---
 
-## Repository Structure
+## System Architecture
 
 ```
+                     Client
+                        │
+                 Parse Arguments
+                        │
+                    socket()
+                        │
+                   connect()
+                        │
+            Send File Metadata
+      ┌────────────┬────────────┬────────────┐
+      │            │            │            │
+ Filename Length  Filename   File Size   SHA-256
+                        │
+                 Send File Data
+                        │
+=================== TCP ===================
+                        │
+                    accept()
+                        │
+               pthread_create()
+                        │
+               Receive Metadata
+                        │
+               Receive File Data
+                        │
+            Compute SHA-256 Hash
+                        │
+             Compare File Hashes
+                        │
+                Save Received File
+                        │
+                  Close Connection
+```
+![Architecture Diagram](docs/architecture-diagram.svg)
+---
+
+## Project Structure
+
+```text
 tcp-file-transfer/
+│
+├── include/
+│   ├── config.h
+│   ├── crypto.h
+│   ├── network.h
+│   └── utils.h
 │
 ├── src/
 │   ├── client.c
-│   └── server.c
+│   ├── server.c
+│   ├── network.c
+│   ├── crypto.c
+│   └── utils.c
 │
 ├── docs/
 │   ├── architecture.md
@@ -34,132 +96,45 @@ tcp-file-transfer/
 │
 ├── Makefile
 ├── README.md
-├── LICENSE
-├── sample.txt
-└── .gitignore
-```
-
----
-
-## Documentation
-
-- 📄 `docs/protocol.md` — Application-layer protocol specification
-- 📄 `docs/architecture.md` — System architecture and threading model
-
----
-## Features
-
-- TCP client-server communication
-- Multithreaded server using POSIX threads (pthread)
-- Reliable file transfer over TCP
-- Custom application-layer protocol
-- Dynamic filename support
-- Command-line file selection
-- Reliable metadata transfer using send_all() and recv_all()
-- Error handling for socket, file, and connection failures
-- Linux-based implementation
-
----
-
-## Technologies Used
-
-- C
-- Linux
-- POSIX Sockets
-- POSIX Threads (pthread)
-- GCC
-- Make
-
----
-
-## Project Structure
-
-```
-tcp-file-transfer/
-│
-├── Makefile
-├── README.md
-├── client.c
-├── server.c
-├── sample.txt
-├── client
-├── server
-└── received_sample.txt
-```
-
----
-
-## Architecture
-
-```
-                Client
-                   │
-              TCP Connection
-                   │
-                   ▼
-         +----------------+
-         |     Server     |
-         +----------------+
-                   │
-              accept()
-                   │
-         pthread_create()
-                   │
-          +----------------+
-          | Worker Thread  |
-          +----------------+
-                   │
-        Receive Metadata
-                   │
-         Receive File Data
-                   │
-          Save Received File
+└── LICENSE
 ```
 
 ---
 
 ## Application Protocol
 
-The application uses a custom protocol for reliable communication.
+The client transmits data in the following order:
 
-```
-+------------------------+
-| Filename Length (4B)   |
-+------------------------+
-| Filename (N bytes)     |
-+------------------------+
-| File Size (8B)         |
-+------------------------+
-| File Data              |
-+------------------------+
-```
+| Order | Field | Description |
+|------:|-------|-------------|
+| 1 | Filename Length | Length of filename |
+| 2 | Filename | Original filename |
+| 3 | File Size | Total file size |
+| 4 | SHA-256 Hash | Integrity verification |
+| 5 | File Data | File contents |
 
-This protocol allows the server to determine:
-
-- The exact filename length
-- The filename
-- The expected file size
-- When the transfer is complete
-
+![Sequence Diagram](docs/sequence-diagram.svg)
 ---
 
 ## Build
 
-Compile the project using:
+Install OpenSSL development libraries:
 
 ```bash
-make
+sudo apt update
+sudo apt install libssl-dev
 ```
 
-Clean generated files:
+Compile the application:
 
 ```bash
 make clean
+make
 ```
 
 ---
 
-## Running the Application
+## Usage
 
 Start the server:
 
@@ -167,79 +142,78 @@ Start the server:
 ./server
 ```
 
-Start the client:
+Custom port:
+
+```bash
+./server 8080
+```
+
+Transfer a file:
 
 ```bash
 ./client sample.txt
 ```
 
----
-
-## File Verification
-
-Verify the transferred file:
+Specify server IP and port:
 
 ```bash
-diff sample.txt received_sample.txt
+./client 127.0.0.1 8080 test_10mb.bin
 ```
 
-If no output is produced, the transfer was successful and both files are identical.
-
 ---
 
-## Key Concepts Demonstrated
+## Screenshots
 
-- TCP Socket Programming
-- Client-Server Architecture
-- Linux System Programming
-- POSIX Threads
-- File I/O
-- Dynamic Memory Allocation
-- Thread Synchronization Concepts
-- Custom Network Protocol Design
-- Reliable Data Transmission
-- Error Handling
+### Client
 
----
+![Client](screenshots/client-terminal.png)
 
-## Future Improvements
+### Server
 
-- Transfer progress indicator
-- File checksum validation
-- TLS encryption
-- Multiple file transfer support
-- Resume interrupted transfers
-- Logging framework
-- Configuration file support
-- IPv6 support
+![Server](screenshots/server-terminal.png)
 
----
-
-## Author
-
-Sai Sriya
----
-
-# Screenshots
-
-## Server Execution
-
-The server initializes a TCP socket, binds to port **8080**, and waits for incoming client connections.
-
-![Server Terminal](screenshots/server-terminal.png)
-
----
-
-## Client Execution
-
-The client establishes a TCP connection and transfers the selected file to the server.
-
-![Client Terminal](screenshots/client-terminal.png)
-
----
-
-## File Integrity Verification
-
-The received file is compared with the original using the Linux `diff` command. Since `diff` produces **no output**, the transfer was successful and both files are identical.
+### SHA-256 Verification
 
 ![Verification](screenshots/verification.png)
+
+### Project Structure
+
+![Project Structure](screenshots/project-structure.png)
+
+---
+
+## Skills Demonstrated
+
+- C Programming
+- Linux System Programming
+- POSIX Socket Programming
+- TCP/IP Networking
+- Client-Server Architecture
+- Concurrent Programming
+- POSIX Threads
+- Custom Application Protocol Design
+- SHA-256 Cryptographic Hashing
+- Binary File Transfer
+- Performance Measurement
+- Error Handling
+- Modular Software Design
+- Build Automation using Make
+
+---
+
+## Future Enhancements
+
+- TLS encryption
+- IPv6 support
+- Multiple file transfer
+- Resume interrupted transfers
+- Configuration file support
+- Timestamped logging
+- Bandwidth throttling
+- File compression
+
+---
+
+## License
+
+This project is released under the MIT License.
