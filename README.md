@@ -1,4 +1,4 @@
-# Linux Multithreaded TCP File Transfer System
+# Linux Multithreaded TCP File Transfer System in C
 
 A high-performance TCP client-server file transfer application developed in **C** on **Linux** using **POSIX sockets** and **POSIX threads**. The application supports reliable file transmission, concurrent client handling, configurable networking, real-time transfer monitoring, performance analysis, and SHA-256 integrity verification through a custom application-layer protocol.
 
